@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using ViccAdatbazis.Data;
 using ViccAdatbazis.Models;
 
@@ -86,7 +87,30 @@ namespace ViccAdatbazis.Controllers
             return NoContent();
         }
 
+        //Lájkolás
+        [Route("{id}/like")]
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<string>> Tetszik(int id)
+        {
+            var vicc = _context.Viccek.Find(id);
+            if (vicc == null) { return NotFound(); }
+            vicc.Tetszik++;
+            _context.Entry(vicc).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok(JsonSerializer.Serialize("tdb: "+vicc.Tetszik));
+        }
 
-
+        //Dislike
+        [Route("{id}/dislike")]
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> NemTetszik(int id)
+        {
+            var vicc = _context.Viccek.Find(id);
+            if (vicc == null) { return NotFound(); }
+            vicc.NemTetszik++;
+            _context.Entry(vicc).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
