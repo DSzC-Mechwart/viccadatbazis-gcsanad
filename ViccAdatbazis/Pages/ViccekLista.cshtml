@@ -41,11 +41,12 @@
                 @Html.DisplayFor(modelItem => item.Feltolto)
             </td>
             <td>
-                <span id="tetszikDb">@Html.DisplayFor(modelItem => item.Tetszik)</span>
-                <Button onclick="lajkolas(@item.Id)">Teccik</Button>
+                <span id="tetszikDb-@item.Id">@Html.DisplayFor(modelItem => item.Tetszik)</span>
+                <button onclick="lajkolas(@item.Id)">Teccik</button>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NemTetszik)
+                <span id="nemTeccikDb-@item.Id">@Html.DisplayFor(modelItem => item.NemTetszik)</span>
+                <button onclick="dislajkolas(@item.Id)">Nem Teccik</button>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aktiv)

@@ -19,12 +19,12 @@ namespace ViccAdatbazis.Controllers
         }
         //Összes vicc lekérdezése
         [HttpGet]
-        public ActionResult<List<Vicc>> GetViccek()
-        {
-            return _context.Viccek.Where(x => x.Aktiv == true).ToList();
-        }
+        //public ActionResult<List<Vicc>> GetViccek()
+        //{
+        //    return _context.Viccek.Where(x => x.Aktiv == true).ToList();
+        //}
 
-        public async Task<ActionResult<List<Vicc>>> GetAsyncViccek()
+        public async Task<ActionResult<List<Vicc>>> GetViccek()
         {
             return await _context.Viccek.Where(x => x.Aktiv == true).ToListAsync();
         }
@@ -97,20 +97,21 @@ namespace ViccAdatbazis.Controllers
             vicc.Tetszik++;
             _context.Entry(vicc).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok(JsonSerializer.Serialize("tdb: "+vicc.Tetszik));
+            return Ok(vicc.Tetszik);
         }
 
         //Dislike
         [Route("{id}/dislike")]
         [HttpPatch("{id}")]
-        public async Task<ActionResult> NemTetszik(int id)
+        public async Task<ActionResult<string>> NemTetszik(int id)
         {
             var vicc = _context.Viccek.Find(id);
             if (vicc == null) { return NotFound(); }
             vicc.NemTetszik++;
             _context.Entry(vicc).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(vicc.NemTetszik);
+            
         }
     }
 }
